@@ -13,20 +13,9 @@ function start_time_compare(a, b) {
     return 0;
 }
 
-function check_origin(origin) {
-    if (!origin) return false
-    return origin.includes('matsuri.icu');
-}
-
 router.get('/:mid', async (req, res) => {
     let status = 0;
     let mid = parseInt(req.params.mid);
-    let origin = req.header('origin');
-    if (!check_origin(origin)) {
-        res.status(403)
-        res.send({status: 1, message: '别看了别看了，真的别看了'})
-        return
-    }
     let final_list = [];
     try {
         let clips = await db.query('SELECT DISTINCT(clip_id) FROM comments WHERE user_id = $1', [mid])
